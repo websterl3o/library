@@ -15,8 +15,17 @@ class BookController extends Controller
      */
     public function index()
     {
-        // Utilizando a View (BookReport) que consolida os subjects e resolve relacionamentos internamente no MySQL
-        return response()->json(BookReport::paginate(10));
+        $query = BookReport::query();
+
+        if (request()->has('sortBy') && request()->has('sortType')) {
+            $query->orderBy(request('sortBy'), request('sortType'));
+        } else {
+            $query->orderBy('book_title');
+        }
+
+        $perPage = request('per_page', 25);
+
+        return response()->json($query->paginate($perPage));
     }
 
     /**
@@ -25,7 +34,7 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $book = Book::create($request->validated());
-        
+
         $book->authors()->sync($request->authors);
         $book->subjects()->sync($request->subjects);
 

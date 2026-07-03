@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.vue3-easy-data-table__main {
+  border-color: #f1f5f9; /* slate-100 */
+
+  --easy-table-border: 1px solid #f1f5f9;
+  --easy-table-row-border: 1px solid #f1f5f9;
+
+  --easy-table-header-font-size: 14px;
+  --easy-table-header-height: 50px;
+  --easy-table-header-font-color: #475569; /* slate-600 */
+  --easy-table-header-background-color: #f8fafc; /* slate-50/50 */
+
+  --easy-table-header-item-padding: 10px 15px;
+
+  --easy-table-body-even-row-font-color: #0f172a;
+  --easy-table-body-even-row-background-color: #fff;
+
+  --easy-table-body-row-font-color: #0f172a;
+  --easy-table-body-row-background-color: #fff;
+  --easy-table-body-row-height: 50px;
+  --easy-table-body-row-font-size: 14px;
+
+  --easy-table-body-row-hover-font-color: #0f172a;
+  --easy-table-body-row-hover-background-color: #f8fafc;
+
+  --easy-table-footer-background-color: #fff;
+  --easy-table-footer-font-color: #64748b; /* slate-500 */
+  --easy-table-footer-font-size: 14px;
+  --easy-table-footer-padding: 0px 10px;
+  --easy-table-footer-height: 50px;
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  .vue3-easy-data-table__main {
+    border-color: rgba(51, 65, 85, 0.5) !important; /* slate-700/50 */
+    background-color: #1e293b !important; /* slate-800 */
+
+    --easy-table-border: 1px solid rgba(51, 65, 85, 0.5);
+    --easy-table-row-border: 1px solid rgba(51, 65, 85, 0.5);
+
+    --easy-table-header-font-color: #cbd5e1; /* slate-300 */
+    --easy-table-header-background-color: #1e293b; /* slate-800 */
+
+    --easy-table-body-even-row-font-color: #f8fafc;
+    --easy-table-body-even-row-background-color: #1e293b;
+
+    --easy-table-body-row-font-color: #f8fafc;
+    --easy-table-body-row-background-color: #1e293b;
+
+    --easy-table-body-row-hover-font-color: #f8fafc;
+    --easy-table-body-row-hover-background-color: rgba(51, 65, 85, 0.4); /* slate-700/40 */
+
+    --easy-table-footer-background-color: #1e293b;
+    --easy-table-footer-font-color: #94a3b8; /* slate-400 */
+  }
+}
+
+/* Customização do texto de paginação (Injetando "Exibindo" e "itens") */
+.vue3-easy-data-table__footer .pagination__items-index::before {
+  content: "Exibindo ";
+}
+.vue3-easy-data-table__footer .pagination__items-index::after {
+  content: " itens";
+}

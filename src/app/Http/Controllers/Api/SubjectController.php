@@ -11,7 +11,16 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        return response()->json(Subject::orderBy('description')->get());
+        $query = Subject::query();
+
+        if (request()->has('sortBy') && request()->has('sortType')) {
+            $query->orderBy(request('sortBy'), request('sortType'));
+        } else {
+            $query->orderBy('description');
+        }
+
+        $perPage = request('per_page', 25);
+        return response()->json($query->paginate($perPage));
     }
 
     public function store(Request $request)

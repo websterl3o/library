@@ -11,7 +11,16 @@ class AuthorController extends Controller
 {
     public function index()
     {
-        return response()->json(Author::orderBy('name')->get());
+        $query = Author::query();
+
+        if (request()->has('sortBy') && request()->has('sortType')) {
+            $query->orderBy(request('sortBy'), request('sortType'));
+        } else {
+            $query->orderBy('name');
+        }
+
+        $perPage = request('per_page', 25);
+        return response()->json($query->paginate($perPage));
     }
 
     public function store(Request $request)

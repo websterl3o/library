@@ -15,36 +15,33 @@
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-slate-50/50 dark:bg-slate-800/50 border-y border-slate-100 dark:border-slate-700/50">
-              <th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">ID</th>
-              <th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Descrição</th>
-              <th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300 text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
-            <tr v-if="subjects.length === 0">
-              <td colspan="3" class="px-6 py-12 text-center">
-                <p class="text-slate-500 dark:text-slate-400">Nenhum assunto encontrado.</p>
-              </td>
-            </tr>
-            <tr v-for="subject in subjects" :key="subject.id" class="hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors group">
-              <td class="px-6 py-4 text-slate-500 dark:text-slate-400">#{{ subject.id }}</td>
-              <td class="px-6 py-4">
-                <div class="font-semibold text-slate-900 dark:text-white">{{ subject.description }}</div>
-              </td>
-              <td class="px-6 py-4 text-right space-x-2">
-                <button @click="editSubject(subject)" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors" title="Editar">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                </button>
-                <button @click="deleteSubject(subject.id)" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 transition-colors" title="Excluir">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <BaseTable
+          :headers="headers"
+          :items="subjects"
+          :server-items-length="totalSubjects"
+          @update-options="fetchSubjects"
+          empty-message="Nenhum assunto encontrado."
+        >
+
+          <template #item-id="subject">
+            <span class="text-slate-500 dark:text-slate-400 font-medium">#{{ subject.id }}</span>
+          </template>
+
+          <template #item-description="subject">
+            <div class="font-semibold text-slate-900 dark:text-white py-2">{{ subject.description }}</div>
+          </template>
+
+          <template #item-actions="subject">
+            <div class="flex items-center space-x-2">
+              <button @click="editSubject(subject)" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors" title="Editar">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+              </button>
+              <button @click="deleteSubject(subject.id)" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 transition-colors" title="Excluir">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              </button>
+            </div>
+          </template>
+        </BaseTable>
       </div>
     </div>
 
@@ -75,15 +72,32 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import AppLayout from '../../Layouts/AppLayout.vue';
+import BaseTable from '../../Components/BaseTable.vue';
 
 const subjects = ref([]);
+const totalSubjects = ref(0);
 const editingSubject = ref(null);
-const editForm = ref({ description: '' });
+const editForm = ref({
+  description: ''
+});
 
-const fetchSubjects = async () => {
+const headers = [
+  { text: "ID", value: "id", sortable: true },
+  { text: "DESCRIÇÃO", value: "description", sortable: true },
+  { text: "AÇÕES", value: "actions" }
+];
+
+const fetchSubjects = async (options = { page: 1, rowsPerPage: 25, sortBy: '', sortType: '' }) => {
   try {
-    const response = await axios.get('/api/subjects');
-    subjects.value = response.data;
+    const params = new URLSearchParams();
+    if (options.page) params.append('page', options.page);
+    if (options.rowsPerPage) params.append('per_page', options.rowsPerPage);
+    if (options.sortBy) params.append('sortBy', options.sortBy);
+    if (options.sortType) params.append('sortType', options.sortType);
+
+    const response = await axios.get(`/api/subjects?${params.toString()}`);
+    subjects.value = response.data.data;
+    totalSubjects.value = response.data.total;
   } catch (error) {
     console.error(error);
   }
