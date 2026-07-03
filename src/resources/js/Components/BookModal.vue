@@ -5,9 +5,16 @@
 
     <!-- Modal Content (Glassmorphism) -->
     <div class="relative bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/40 dark:border-slate-700/50 rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden transform transition-all ring-1 ring-black/5 p-6 sm:p-8">
-      <h3 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 mb-6 tracking-tight">
-        {{ book ? 'Editar Livro' : 'Novo Livro' }}
-      </h3>
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 tracking-tight">
+          {{ book ? 'Editar Livro' : 'Novo Livro' }}
+        </h3>
+        <button @click="$emit('close')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors bg-slate-100/50 hover:bg-slate-200/50 dark:bg-slate-800/50 dark:hover:bg-slate-700/50 rounded-full p-2" title="Fechar">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
       <form @submit.prevent="submit" class="space-y-5">
         <div>

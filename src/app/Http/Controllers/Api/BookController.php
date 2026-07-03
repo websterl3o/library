@@ -16,7 +16,7 @@ class BookController extends Controller
     public function index()
     {
         // Utilizando a View (BookReport) que consolida os subjects e resolve relacionamentos internamente no MySQL
-        return response()->json(BookReport::all());
+        return response()->json(BookReport::paginate(10));
     }
 
     /**
