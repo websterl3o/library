@@ -40,7 +40,7 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Preço</label>
-            <input v-model="form.price" type="number" step="0.01" min="0" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+            <CurrencyInput v-model="form.price" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
           </div>
         </div>
 
@@ -89,6 +89,7 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect';
 import '@vueform/multiselect/themes/default.css';
+import CurrencyInput from './CurrencyInput.vue';
 
 const props = defineProps({
   show: Boolean,
