@@ -3,9 +3,7 @@ set -e
 
 echo "Starting Library Manager Setup..."
 
-# Move to the infra directory to run docker compose
-cd infra
-
+# Run docker compose from the root directory
 # Build and start containers
 docker compose up -d --build
 

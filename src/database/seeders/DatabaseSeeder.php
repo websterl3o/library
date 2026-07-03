@@ -13,11 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $subjects = \App\Models\Subject::factory(10)->create();
+        $authors = \App\Models\Author::factory(20)->create();
+        
+        \App\Models\Book::factory(50)->create()->each(function ($book) use ($subjects, $authors) {
+            $book->subjects()->attach($subjects->random(rand(1, 3))->pluck('id'));
+            $book->authors()->attach($authors->random(rand(1, 2))->pluck('id'));
+        });
     }
 }
