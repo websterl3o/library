@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: infra/php/Dockerfile
+    container_name: library_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ../src:/var/www/html
+    networks:
+      - library_net
+
+  web:
+    image: nginx:alpine
+    container_name: library_web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ../src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - library_net
+
+  db:
+    image: mysql:8.0
+    container_name: library_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: library
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: library_user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - library_net
+
+networks:
+  library_net:
+    driver: bridge
+
+volumes:
+  db-data:

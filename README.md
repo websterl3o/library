@@ -5,7 +5,7 @@
 ![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Pest](https://img.shields.io/badge/Pest-F22F46?style=for-the-badge&logo=pest&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 Aplicação Web desenvolvida como resolução do desafio técnico para cadastro e gerenciamento de Livros, Autores e Assuntos. O projeto implementa um CRUD completo baseado em uma modelagem de dados relacional estrita, incorporando requisitos sistêmicos como formatação rigorosa de dados monetários, tratamento de exceções em nível de persistência e geração de relatórios otimizados através de Views no banco de dados.
@@ -48,7 +48,7 @@ Library
 | **Estilização**    | Tailwind CSS   | Construção ágil de interfaces sob medida através de classes utilitárias.                                                                |
 | **Testes**         | Pest PHP       | Framework para execução do TDD com sintaxe focada em legibilidade e velocidade.                                                         |
 | **Infraestrutura** | Docker Compose | Isolamento total de dependências garantindo paridade entre desenvolvimento e produção.                                                  |
-| **Banco de Dados** | MySQL          | Motor relacional responsável pela persistência, integridade referencial e hospedagem da *View* do relatório.                            |
+| **Banco de Dados** | PostgreSQL     | Motor relacional responsável pela persistência, integridade referencial e hospedagem da *View* do relatório.                            |
 
 ---
 
