@@ -50,12 +50,9 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
-              <tr v-for="book in books" :key="book.book_id + '-' + book.author_id" class="hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-colors group">
+              <tr v-for="book in books" :key="book.book_id" class="hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-colors group">
                 <td class="py-4 px-6">
                   <div class="flex items-center gap-3">
-                    <div class="h-10 w-8 bg-slate-200 dark:bg-slate-700 rounded flex-shrink-0 relative overflow-hidden">
-                       <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-black/10"></div>
-                    </div>
                     <div>
                       <p class="font-semibold text-slate-900 dark:text-white">{{ book.book_title }}</p>
                       <p class="text-xs text-slate-500 dark:text-slate-400">{{ book.book_publisher }} (Edição: {{ book.book_edition }}, {{ book.book_year }})</p>
@@ -63,12 +60,18 @@
                   </div>
                 </td>
                 <td class="py-4 px-6">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300">
-                    {{ book.author_name }}
-                  </span>
+                  <div class="flex flex-col items-start gap-2">
+                    <span v-for="author in (book.authors_list ? book.authors_list.split(', ') : ['Sem autor'])" :key="author" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300">
+                      {{ author }}
+                    </span>
+                  </div>
                 </td>
-                <td class="py-4 px-6 text-sm text-slate-600 dark:text-slate-300 truncate max-w-xs" :title="book.subjects_list">
-                  {{ book.subjects_list }}
+                <td class="py-4 px-6">
+                  <div class="flex flex-col items-start gap-2">
+                    <span v-for="subject in (book.subjects_list ? book.subjects_list.split(', ') : ['Sem autor'])" :key="subject" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-300">
+                      {{ subject }}
+                    </span>
+                  </div>
                 </td>
                 <td class="py-4 px-6">
                   <p class="text-sm font-semibold text-slate-900 dark:text-white">R$ {{ book.book_price }}</p>
