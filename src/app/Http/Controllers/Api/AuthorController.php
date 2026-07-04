@@ -4,54 +4,45 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author;
-use App\Models\Book;
+use App\Services\AuthorService;
+use App\Http\Requests\StoreAuthorRequest;
+use App\Http\Requests\UpdateAuthorRequest;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
-    public function index()
+    protected $authorService;
+
+    public function __construct(AuthorService $authorService)
     {
-        $query = Author::query();
-
-        if (request()->has('sortBy') && request()->has('sortType')) {
-            $query->orderBy(request('sortBy'), request('sortType'));
-        } else {
-            $query->orderBy('name');
-        }
-
-        $perPage = request('per_page', 25);
-        return response()->json($query->paginate($perPage));
+        $this->authorService = $authorService;
     }
 
-    public function store(Request $request)
+    public function index()
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:40'
-        ]);
+        $perPage = request('per_page', 25);
+        $sortBy = request('sortBy', 'name');
+        $sortType = request('sortType', 'asc');
 
-        $author = Author::create($validated);
+        $authors = $this->authorService->getPaginated($perPage, $sortBy, $sortType);
+        return response()->json($authors);
+    }
 
+    public function store(StoreAuthorRequest $request)
+    {
+        $author = $this->authorService->createAuthor($request->validated());
         return response()->json($author, 201);
     }
 
-    public function update(Request $request, Author $author)
+    public function update(UpdateAuthorRequest $request, Author $author)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:40'
-        ]);
-
-        $author->update($validated);
-
+        $author = $this->authorService->updateAuthor($author, $request->validated());
         return response()->json($author);
     }
 
     public function destroy(Author $author)
     {
-        $bookIds = $author->books()->pluck('books.id');
-        Book::whereIn('id', $bookIds)->delete();
-        
-        $author->delete();
-
+        $this->authorService->deleteAuthor($author);
         return response()->json(['message' => 'Author and related books deleted successfully.']);
     }
 }

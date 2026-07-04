@@ -4,54 +4,45 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
-use App\Models\Book;
+use App\Services\SubjectService;
+use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-    public function index()
+    protected $subjectService;
+
+    public function __construct(SubjectService $subjectService)
     {
-        $query = Subject::query();
-
-        if (request()->has('sortBy') && request()->has('sortType')) {
-            $query->orderBy(request('sortBy'), request('sortType'));
-        } else {
-            $query->orderBy('description');
-        }
-
-        $perPage = request('per_page', 25);
-        return response()->json($query->paginate($perPage));
+        $this->subjectService = $subjectService;
     }
 
-    public function store(Request $request)
+    public function index()
     {
-        $validated = $request->validate([
-            'description' => 'required|string|max:20'
-        ]);
+        $perPage = request('per_page', 25);
+        $sortBy = request('sortBy', 'description');
+        $sortType = request('sortType', 'asc');
 
-        $subject = Subject::create($validated);
+        $subjects = $this->subjectService->getPaginated($perPage, $sortBy, $sortType);
+        return response()->json($subjects);
+    }
 
+    public function store(StoreSubjectRequest $request)
+    {
+        $subject = $this->subjectService->createSubject($request->validated());
         return response()->json($subject, 201);
     }
 
-    public function update(Request $request, Subject $subject)
+    public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-        $validated = $request->validate([
-            'description' => 'required|string|max:20'
-        ]);
-
-        $subject->update($validated);
-
+        $subject = $this->subjectService->updateSubject($subject, $request->validated());
         return response()->json($subject);
     }
 
     public function destroy(Subject $subject)
     {
-        $bookIds = $subject->books()->pluck('books.id');
-        Book::whereIn('id', $bookIds)->delete();
-        
-        $subject->delete();
-
+        $this->subjectService->deleteSubject($subject);
         return response()->json(['message' => 'Subject and related books deleted successfully.']);
     }
 }
