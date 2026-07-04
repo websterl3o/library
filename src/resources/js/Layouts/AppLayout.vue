@@ -17,9 +17,7 @@
       <!-- Sidebar Header -->
       <div class="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-700/50">
         <div class="flex items-center gap-3">
-          <div class="h-8 w-8 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/30">
-            L
-          </div>
+          <img src="/favicon-96x96.png" alt="Library Logo" class="h-8 w-8 object-contain drop-shadow-lg dark:bg-white dark:p-1 dark:rounded-xl transition-all" />
           <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300">
             Library
           </span>
@@ -103,9 +101,7 @@
       <header class="lg:hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl sticky top-0 z-30 border-b border-slate-200 dark:border-slate-700/50">
         <div class="px-4 py-3 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="h-8 w-8 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-              L
-            </div>
+            <img src="/favicon-96x96.png" alt="Library Logo" class="h-8 w-8 object-contain drop-shadow-md dark:bg-white dark:p-1 dark:rounded-xl transition-all" />
             <span class="text-xl font-bold text-slate-900 dark:text-white">Library</span>
           </div>
           <button class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200" @click="isMobileMenuOpen = true">
