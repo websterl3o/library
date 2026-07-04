@@ -159,7 +159,7 @@ const submit = async () => {
 };
 </script>
 
-<style>
+<style scoped>
 .multiselect {
   --ms-bg: rgba(255, 255, 255, 0.5);
   --ms-border-color: #cbd5e1;

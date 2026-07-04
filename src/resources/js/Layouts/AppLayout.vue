@@ -1,14 +1,14 @@
 <template>
   <div class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 flex">
     <!-- Mobile Sidebar Backdrop -->
-    <div 
+    <div
       v-if="isMobileMenuOpen"
       class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm lg:hidden"
       @click="isMobileMenuOpen = false"
     ></div>
 
     <!-- Sidebar -->
-    <aside 
+    <aside
       :class="[
         'fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/50 shadow-sm transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0',
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -32,8 +32,8 @@
       <!-- Navigation -->
       <nav class="p-4 space-y-2 overflow-y-auto h-[calc(100vh-4rem)]">
         <!-- Dashboard -->
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors"
           :class="$page.url === '/' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-slate-900 dark:hover:text-white'"
         >
@@ -43,8 +43,8 @@
 
         <!-- Livros -->
         <div class="space-y-1">
-          <button 
-            @click="toggleMenu('books')" 
+          <button
+            @click="toggleMenu('books')"
             class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <div class="flex items-center gap-3">
@@ -61,8 +61,8 @@
 
         <!-- Autores -->
         <div class="space-y-1">
-          <button 
-            @click="toggleMenu('authors')" 
+          <button
+            @click="toggleMenu('authors')"
             class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <div class="flex items-center gap-3">
@@ -79,8 +79,8 @@
 
         <!-- Assuntos -->
         <div class="space-y-1">
-          <button 
-            @click="toggleMenu('subjects')" 
+          <button
+            @click="toggleMenu('subjects')"
             class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <div class="flex items-center gap-3">
@@ -118,6 +118,12 @@
       <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
         <slot />
       </main>
+
+      <footer class="border-t border-slate-200 dark:border-slate-700/50">
+        <div class="p-4 sm:p-6 lg:p-8 text-center">
+          <p class="text-sm text-slate-500 dark:text-slate-400">© 2026 Library. Todos os direitos reservados.</p>
+        </div>
+      </footer>
     </div>
   </div>
 </template>
