@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <!-- Stats Cards (Empty for now) -->
+    <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700/50 flex items-center gap-4">
         <div class="h-12 w-12 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
@@ -17,7 +17,7 @@
         </div>
         <div>
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Livros</p>
-          <p class="text-2xl font-bold text-slate-900 dark:text-white">-</p>
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ counts.books }}</p>
         </div>
       </div>
       
@@ -29,7 +29,7 @@
         </div>
         <div>
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Autores</p>
-          <p class="text-2xl font-bold text-slate-900 dark:text-white">-</p>
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ counts.authors }}</p>
         </div>
       </div>
 
@@ -41,24 +41,107 @@
         </div>
         <div>
           <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Assuntos</p>
-          <p class="text-2xl font-bold text-slate-900 dark:text-white">-</p>
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ counts.subjects }}</p>
         </div>
       </div>
     </div>
 
-    <!-- Empty State for Reports -->
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm border border-slate-100 dark:border-slate-700/50 text-center">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-700 mb-4">
-        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+    <!-- Reports -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700/50 h-[400px] flex flex-col">
+        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Livros por Autor</h3>
+        <div class="relative flex-1 w-full min-h-0">
+          <Bar v-if="chartDataAuthors" :data="chartDataAuthors" :options="chartOptions" />
+        </div>
       </div>
-      <h3 class="text-lg font-medium text-slate-900 dark:text-white">Relatórios em Breve</h3>
-      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-        Esta página será populada com relatórios detalhados e gráficos. Utilize o menu lateral para gerenciar Livros, Autores e Assuntos.
-      </p>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700/50 h-[400px] flex flex-col">
+        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Livros por Assunto</h3>
+        <div class="relative flex-1 w-full min-h-0">
+          <Doughnut v-if="chartDataSubjects" :data="chartDataSubjects" :options="pieOptions" />
+        </div>
+      </div>
     </div>
   </AppLayout>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import AppLayout from '../Layouts/AppLayout.vue';
+import { truncateName } from '../helper.js';
+import { Bar, Doughnut } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement } from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+
+const counts = ref({ books: '-', authors: '-', subjects: '-' });
+const chartDataAuthors = ref(null);
+const chartDataSubjects = ref(null);
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: { precision: 0 }
+    }
+  }
+};
+
+const pieOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'bottom' }
+  }
+};
+
+onMounted(() => {
+  // Busca as contagens de forma independente
+  axios.get('/api/dashboard/books-count')
+    .then(res => counts.value.books = res.data.count)
+    .catch(err => console.error("Erro livros", err));
+
+  axios.get('/api/dashboard/authors-count')
+    .then(res => counts.value.authors = res.data.count)
+    .catch(err => console.error("Erro autores", err));
+
+  axios.get('/api/dashboard/subjects-count')
+    .then(res => counts.value.subjects = res.data.count)
+    .catch(err => console.error("Erro assuntos", err));
+
+  // Busca os dados do gráfico de Autores
+  axios.get('/api/dashboard/books-by-author')
+    .then(res => {
+      chartDataAuthors.value = {
+        labels: res.data.map(item => truncateName(item.author_name)),
+        datasets: [{
+          label: 'Qtd. de Livros',
+          backgroundColor: '#4f46e5', // indigo-600
+          borderRadius: 6,
+          data: res.data.map(item => item.book_count)
+        }]
+      };
+    })
+    .catch(err => console.error("Erro gráfico autores", err));
+
+  // Busca os dados do gráfico de Assuntos
+  axios.get('/api/dashboard/books-by-subject')
+    .then(res => {
+      chartDataSubjects.value = {
+        labels: res.data.map(item => item.subject),
+        datasets: [{
+          backgroundColor: ['#4f46e5', '#10b981', '#f43f5e', '#f59e0b', '#8b5cf6', '#06b6d4'],
+          borderWidth: 0,
+          data: res.data.map(item => item.book_count)
+        }]
+      };
+    })
+    .catch(err => console.error("Erro gráfico assuntos", err));
+});
 </script>
