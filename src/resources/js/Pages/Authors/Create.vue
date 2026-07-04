@@ -10,7 +10,7 @@
         <form @submit.prevent="submit" class="space-y-5">
           <div>
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Nome do Autor</label>
-            <input v-model="form.name" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            <input v-model="form.name" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
           </div>
 
           <div class="mt-8 flex justify-end space-x-4 pt-6 border-t border-slate-100 dark:border-slate-700/50">

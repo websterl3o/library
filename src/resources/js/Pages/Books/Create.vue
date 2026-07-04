@@ -10,28 +10,28 @@
         <form @submit.prevent="submit" class="space-y-5">
           <div>
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Título</label>
-            <input v-model="form.title" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            <input v-model="form.title" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Editora</label>
-              <input v-model="form.publisher" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+              <input v-model="form.publisher" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Edição</label>
-              <input v-model="form.edition" type="number" min="1" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+              <input v-model="form.edition" type="number" min="1" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Ano</label>
-              <input v-model="form.publication_year" type="text" pattern="\d{4}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+              <input v-model="form.publication_year" type="text" pattern="\d{4}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Preço</label>
-              <CurrencyInput v-model="form.price" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+              <CurrencyInput v-model="form.price" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
             </div>
           </div>
 
@@ -102,11 +102,12 @@ const form = ref({
 const fetchDependencies = async () => {
   try {
     const [authorsRes, subjectsRes] = await Promise.all([
-      axios.get('/api/authors'),
-      axios.get('/api/subjects')
+      axios.get('/api/authors?per_page=1000'),
+      axios.get('/api/subjects?per_page=1000')
     ]);
-    authorsList.value = authorsRes.data;
-    subjectsList.value = subjectsRes.data;
+    // The API now returns paginated data: { data: [...] }
+    authorsList.value = authorsRes.data.data || authorsRes.data;
+    subjectsList.value = subjectsRes.data.data || subjectsRes.data;
   } catch (error) {
     console.error(error);
   }
@@ -131,38 +132,5 @@ onMounted(() => {
 </script>
 
 <style>
-.multiselect {
-  --ms-bg: rgba(255, 255, 255, 0.5);
-  --ms-border-color: #cbd5e1;
-  --ms-border-width: 1px;
-  --ms-radius: 1rem;
-  --ms-font-size: 0.875rem;
-  --ms-dropdown-bg: #ffffff;
-  --ms-dropdown-border-color: #cbd5e1;
-  --ms-option-bg-pointed: #f1f5f9;
-  --ms-option-bg-selected: #6366f1;
-  --ms-option-bg-selected-pointed: #6366f1;
-  --ms-option-color-selected: #ffffff;
-  --ms-tag-bg: #6366f1;
-  --ms-tag-color: #ffffff;
-  --ms-tag-radius: 0.25rem;
-  --ms-tag-font-weight: 600;
-  --ms-ring-width: 2px;
-  --ms-ring-color: #6366f1;
-}
 
-@media (prefers-color-scheme: dark) {
-  .multiselect {
-    --ms-bg: rgba(30, 41, 59, 0.5);
-    --ms-border-color: #475569;
-    --ms-dropdown-bg: #1e293b;
-    --ms-dropdown-border-color: #475569;
-    --ms-option-bg-pointed: #334155;
-    --ms-option-color-pointed: #ffffff;
-  }
-}
-
-.multiselect-tags {
-  padding-left: 0.5rem;
-}
 </style>

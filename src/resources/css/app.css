@@ -66,3 +66,43 @@
 .vue3-easy-data-table__footer .pagination__items-index::after {
   content: " itens";
 }
+
+.multiselect {
+  --ms-bg: rgba(255, 255, 255, 0.5);
+  --ms-border-color: #cbd5e1;
+  --ms-border-width: 1px;
+  --ms-radius: 1rem;
+  --ms-font-size: 0.875rem;
+  --ms-dropdown-bg: #ffffff;
+  --ms-dropdown-border-color: #cbd5e1;
+  --ms-option-bg-pointed: #f1f5f9;
+  --ms-option-bg-selected: #6366f1;
+  --ms-option-bg-selected-pointed: #6366f1;
+  --ms-option-color-selected: #ffffff;
+  --ms-tag-bg: #6366f1;
+  --ms-tag-color: #ffffff;
+  --ms-tag-radius: 0.25rem;
+  --ms-tag-font-weight: 600;
+  --ms-ring-width: 2px;
+  --ms-ring-color: #6366f1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .multiselect {
+    --ms-bg: #0f172a; /* slate-900 */
+    --ms-border-color: #334155; /* slate-700 */
+    --ms-dropdown-bg: #0f172a;
+    --ms-dropdown-border-color: #334155;
+    --ms-option-bg-pointed: #1e293b; /* slate-800 */
+    --ms-option-color-pointed: #ffffff;
+  }
+  .multiselect-option,
+  .multiselect-no-options,
+  .multiselect-no-results {
+    color: #e2e8f0; /* slate-200 */
+  }
+}
+
+.multiselect-tags {
+  padding-left: 0.5rem;
+}
