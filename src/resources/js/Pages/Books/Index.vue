@@ -98,6 +98,7 @@ const authorsList = ref([]);
 const subjectsList = ref([]);
 const showModal = ref(false);
 const editingBook = ref(null);
+const tableOptions = ref({ page: 1, rowsPerPage: 25, sortBy: '', sortType: '' });
 
 const headers = [
   { text: "LIVROS", value: "book_title", sortable: true },
@@ -107,13 +108,19 @@ const headers = [
   { text: "AÇÕES", value: "actions" }
 ];
 
-const fetchBooks = async (options = { page: 1, rowsPerPage: 25, sortBy: '', sortType: '' }) => {
+const fetchBooks = async (options) => {
+  if (options && options.page !== undefined) {
+    tableOptions.value = { ...tableOptions.value, ...options };
+  }
+
   try {
     const params = new URLSearchParams();
-    if (options.page) params.append('page', options.page);
-    if (options.rowsPerPage) params.append('per_page', options.rowsPerPage);
-    if (options.sortBy) params.append('sortBy', options.sortBy);
-    if (options.sortType) params.append('sortType', options.sortType);
+    const current = tableOptions.value;
+
+    if (current.page) params.append('page', current.page);
+    if (current.rowsPerPage) params.append('per_page', current.rowsPerPage);
+    if (current.sortBy) params.append('sortBy', current.sortBy);
+    if (current.sortType) params.append('sortType', current.sortType);
 
     const response = await axios.get(`/api/books?${params.toString()}`);
     books.value = response.data.data;
