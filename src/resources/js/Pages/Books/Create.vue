@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden max-w-3xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden mx-auto">
       <div class="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-700/50">
         <h2 class="text-xl font-bold text-slate-900 dark:text-white">Novo Livro</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Preencha os detalhes para cadastrar um novo livro no acervo</p>
@@ -35,7 +35,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pb-8">
             <div class="min-w-0">
               <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1 mb-1">Autores</label>
               <Multiselect

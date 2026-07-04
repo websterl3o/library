@@ -16,58 +16,61 @@
         </button>
       </div>
 
-      <form @submit.prevent="submit" class="space-y-5">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Título</label>
-          <input v-model="form.title" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
-        </div>
+      <form @submit.prevent="submit" class="space-y-5 ">
+        <div class="py-3">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Editora</label>
-            <input v-model="form.publisher" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Título</label>
+            <input v-model="form.title" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
           </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Edição</label>
-            <input v-model="form.edition" type="number" min="1" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
-          </div>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Ano</label>
-            <input v-model="form.publication_year" type="text" pattern="\d{4}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Editora</label>
+              <input v-model="form.publisher" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Edição</label>
+              <input v-model="form.edition" type="number" min="1" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+            </div>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Preço</label>
-            <CurrencyInput v-model="form.price" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
-          </div>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div class="min-w-0">
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1 mb-1">Autores</label>
-            <Multiselect
-              v-model="form.authors"
-              mode="tags"
-              :options="authors"
-              valueProp="id"
-              label="name"
-              trackBy="name"
-              placeholder="Selecione..."
-            />
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Ano</label>
+              <input v-model="form.publication_year" type="text" pattern="\d{4}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Preço</label>
+              <CurrencyInput v-model="form.price" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required />
+            </div>
           </div>
-          <div class="min-w-0">
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1 mb-1">Assuntos</label>
-            <Multiselect
-              v-model="form.subjects"
-              mode="tags"
-              :options="subjects"
-              valueProp="id"
-              label="description"
-              trackBy="description"
-              placeholder="Selecione..."
-            />
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="min-w-0">
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1 mb-1">Autores</label>
+              <Multiselect
+                v-model="form.authors"
+                mode="tags"
+                :options="authors"
+                valueProp="id"
+                label="name"
+                trackBy="name"
+                placeholder="Selecione..."
+              />
+            </div>
+            <div class="min-w-0">
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1 mb-1">Assuntos</label>
+              <Multiselect
+                v-model="form.subjects"
+                mode="tags"
+                :options="subjects"
+                valueProp="id"
+                label="description"
+                trackBy="description"
+                placeholder="Selecione..."
+              />
+            </div>
           </div>
         </div>
 
@@ -165,6 +168,7 @@ const submit = async () => {
   --ms-font-size: 0.875rem;
   --ms-dropdown-bg: #ffffff;
   --ms-dropdown-border-color: #cbd5e1;
+  --ms-max-height: 90px;
   --ms-option-bg-pointed: #f1f5f9;
   --ms-option-bg-selected: #6366f1;
   --ms-option-bg-selected-pointed: #6366f1;

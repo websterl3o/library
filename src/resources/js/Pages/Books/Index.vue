@@ -126,11 +126,11 @@ const fetchBooks = async (options = { page: 1, rowsPerPage: 25, sortBy: '', sort
 const fetchDependencies = async () => {
   try {
     const [authorsRes, subjectsRes] = await Promise.all([
-      axios.get('/api/authors'),
-      axios.get('/api/subjects')
+      axios.get('/api/authors?per_page=1000'),
+      axios.get('/api/subjects?per_page=1000')
     ]);
-    authorsList.value = authorsRes.data;
-    subjectsList.value = subjectsRes.data;
+    authorsList.value = authorsRes.data.data || authorsRes.data;
+    subjectsList.value = subjectsRes.data.data || subjectsRes.data;
   } catch (error) {
     console.error(error);
   }

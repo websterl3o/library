@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden max-w-2xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden mx-auto">
       <div class="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-700/50">
         <h2 class="text-xl font-bold text-slate-900 dark:text-white">Novo Autor</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Cadastre um novo autor no sistema</p>
