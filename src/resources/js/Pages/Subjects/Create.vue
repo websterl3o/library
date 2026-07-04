@@ -10,7 +10,8 @@
         <form @submit.prevent="submit" class="space-y-5">
           <div>
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Descrição</label>
-            <input v-model="form.description" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="20" />
+            <input v-model="form.description" type="text" :class="{'border-rose-500 focus:border-rose-500 focus:ring-rose-500': errors.description}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="20" />
+            <span v-if="errors.description" class="block text-xs text-rose-500 mt-1 ml-1">{{ errors.description }}</span>
           </div>
 
           <div class="mt-8 flex justify-end space-x-4 pt-6 border-t border-slate-100 dark:border-slate-700/50">
@@ -28,24 +29,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import AppLayout from '../../Layouts/AppLayout.vue';
 
 const loading = ref(false);
+const errors = ref({});
+let isSubmitted = false;
+
 const form = ref({
   description: ''
 });
 
+const validate = () => {
+  errors.value = {};
+  if (!form.value.description || form.value.description.length > 20) errors.value.description = 'Descrição é obrigatória e deve ter no máximo 20 caracteres.';
+  return Object.keys(errors.value).length === 0;
+};
+
+watch(form, () => {
+  if (isSubmitted) {
+    validate();
+  }
+}, { deep: true });
+
 const submit = async () => {
+  isSubmitted = true;
+  if (!validate()) return;
+  
   loading.value = true;
   try {
     await axios.post('/api/subjects', form.value);
     router.visit('/subjects');
   } catch (error) {
     console.error(error);
-    alert('Erro de validação ao salvar assunto.');
+    alert('Erro ao salvar assunto.');
   } finally {
     loading.value = false;
   }

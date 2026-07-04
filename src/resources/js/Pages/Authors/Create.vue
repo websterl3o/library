@@ -10,7 +10,8 @@
         <form @submit.prevent="submit" class="space-y-5">
           <div>
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Nome do Autor</label>
-            <input v-model="form.name" type="text" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            <input v-model="form.name" type="text" :class="{'border-rose-500 focus:border-rose-500 focus:ring-rose-500': errors.name}" class="mt-1 block w-full rounded-2xl border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all px-4 py-3 text-slate-900 dark:text-white" required maxlength="40" />
+            <span v-if="errors.name" class="block text-xs text-rose-500 mt-1 ml-1">{{ errors.name }}</span>
           </div>
 
           <div class="mt-8 flex justify-end space-x-4 pt-6 border-t border-slate-100 dark:border-slate-700/50">
@@ -28,24 +29,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import AppLayout from '../../Layouts/AppLayout.vue';
 
 const loading = ref(false);
+const errors = ref({});
+let isSubmitted = false;
+
 const form = ref({
   name: ''
 });
 
+const validate = () => {
+  errors.value = {};
+  if (!form.value.name || form.value.name.length > 40) errors.value.name = 'Nome é obrigatório e deve ter no máximo 40 caracteres.';
+  return Object.keys(errors.value).length === 0;
+};
+
+watch(form, () => {
+  if (isSubmitted) {
+    validate();
+  }
+}, { deep: true });
+
 const submit = async () => {
+  isSubmitted = true;
+  if (!validate()) return;
+  
   loading.value = true;
   try {
     await axios.post('/api/authors', form.value);
     router.visit('/authors');
   } catch (error) {
     console.error(error);
-    alert('Erro de validação ao salvar autor.');
+    alert('Erro ao salvar autor.');
   } finally {
     loading.value = false;
   }
