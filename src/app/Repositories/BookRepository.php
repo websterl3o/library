@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Book;
-use App\Models\BookReport;
+use App\Models\VwBooksReport;
 
 class BookRepository
 {
     public function getPaginated(int $perPage = 25, string $sortBy = 'book_title', string $sortType = 'asc')
     {
-        return BookReport::orderBy($sortBy, $sortType)->paginate($perPage);
+        return VwBooksReport::orderBy($sortBy, $sortType)->paginate($perPage);
     }
 
     public function create(array $data): Book
