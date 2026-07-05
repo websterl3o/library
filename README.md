@@ -7,6 +7,7 @@
 ![Pest](https://img.shields.io/badge/Pest-F22F46?style=for-the-badge&logo=pest&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![DOMPDF](https://img.shields.io/badge/DOMPDF-ff0000?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)
 
 Aplicação Web desenvolvida como resolução do desafio técnico para cadastro e gerenciamento de Livros, Autores e Assuntos. O projeto implementa um CRUD completo baseado em uma modelagem de dados relacional estrita, incorporando requisitos sistêmicos como formatação rigorosa de dados monetários, tratamento de exceções em nível de persistência e geração de relatórios otimizados através de Views no banco de dados.
 
@@ -20,6 +21,7 @@ O projeto foi arquitetado com foco em **escalabilidade**, **manutenibilidade** e
 * **Extensão de Domínio:** Inclusão do campo monetário `Valor (R$)` na entidade `Livro`, com tratamento adequado de *casting* e formatação (Mutators/Accessors).
 * **Performance e Persistência:** Geração de um relatório agrupado por autor, construído obrigatoriamente a partir de uma `View` no banco de dados, minimizando o processamento em camada de aplicação.
 * **Resiliência (Error Handling):** Tratamento de exceções centralizado, isolando erros de banco de dados (ex: violação de *Foreign Key*) para evitar `Try/Catch` genéricos e retornar *feedbacks* precisos ao usuário.
+* **Arquitetura em Camadas:** Adoção estrita do padrão `Controller -> Service -> Repository` visando desacoplamento, Single Responsibility Principle (SRP) e alta testabilidade.
 * **Confiabilidade (TDD):** Cobertura de testes unitários e *Feature Tests* conduzidos com o framework Pest, garantindo o comportamento das regras de negócio.
 * **Interface (UI/UX):** Interface responsiva e padronizada utilizando Vue.js e Tailwind CSS, garantindo feedback visual claro para ações de sucesso ou falha.
 
@@ -44,6 +46,8 @@ Library
 | Camada             | Tecnologia     | Propósito / Decisão Arquitetural                                                                                                        |
 | ------------------ | -------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | **Backend**        | Laravel (PHP)  | Fornecer o core da lógica de negócio, ORM (Eloquent), roteamento e tratamento de exceções de forma padronizada.                         |
+| **Design Pattern** | Service/Repo   | Abstração do acesso a dados (`Repositories`) e regras de negócio (`Services`), mantendo controladores magros.                           |
+| **Exportação PDF** | DOMPDF         | Geração do relatório consolidado de autores e livros consumindo diretamente da View SQL do banco para altíssima performance.            |
 | **Frontend**       | Vue.js 3       | Interface reativa orientada a componentes. Integrado via *Inertia.js* para atuar como SPA eliminando o overhead de API e estado global. |
 | **Estilização**    | Tailwind CSS   | Construção ágil de interfaces sob medida através de classes utilitárias.                                                                |
 | **Testes**         | Pest PHP       | Framework para execução do TDD com sintaxe focada em legibilidade e velocidade.                                                         |
