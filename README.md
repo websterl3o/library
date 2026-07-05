@@ -108,9 +108,11 @@ docker compose exec app npm run build
 
 ```
 
-**5. Acessar a aplicação e Testes**
+**5. Acessar a aplicação**
 
 * **Web:** `http://localhost:8000`
+
+**6. Testes**
 * **Testes (TDD):** Para validar a suíte automatizada:
 ```bash
 docker compose exec app php artisan test
