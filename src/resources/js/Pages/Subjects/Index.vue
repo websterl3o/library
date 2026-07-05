@@ -82,12 +82,12 @@ const editForm = ref({
 });
 
 const headers = [
-  { text: "ID", value: "id", sortable: true },
+  { text: "ID", value: "id", sortable: true, width: 100 },
   { text: "DESCRIÇÃO", value: "description", sortable: true },
-  { text: "AÇÕES", value: "actions" }
+  { text: "AÇÕES", value: "actions", width: 150 }
 ];
 
-const fetchSubjects = async (options = { page: 1, rowsPerPage: 25, sortBy: '', sortType: '' }) => {
+const fetchSubjects = async (options = { page: 1, rowsPerPage: 25, sortBy: 'id', sortType: 'asc' }) => {
   try {
     const params = new URLSearchParams();
     if (options.page) params.append('page', options.page);

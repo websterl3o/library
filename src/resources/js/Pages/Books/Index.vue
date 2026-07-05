@@ -104,8 +104,8 @@ const headers = [
   { text: "LIVROS", value: "book_title", sortable: true },
   { text: "AUTORES", value: "authors_list", sortable: false },
   { text: "ASSUNTOS", value: "subjects_list", sortable: false },
-  { text: "PREÇO", value: "book_price", sortable: true },
-  { text: "AÇÕES", value: "actions" }
+  { text: "PREÇO", value: "book_price", sortable: true, width: 120 },
+  { text: "AÇÕES", value: "actions", width: 150 }
 ];
 
 const fetchBooks = async (options) => {

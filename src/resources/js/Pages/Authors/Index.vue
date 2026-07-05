@@ -6,12 +6,20 @@
           <h2 class="text-xl font-bold text-slate-900 dark:text-white">Autores</h2>
           <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Gerencie os autores cadastrados no sistema</p>
         </div>
-        <Link href="/authors/create" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-200">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Novo Autor
-        </Link>
+        <div class="flex items-center gap-2">
+          <a href="/api/reports/authors" target="_blank" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-100 dark:bg-slate-700 px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-white shadow-sm hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-200" title="Baixar Relatório Completo de Autores">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Relatório Completo
+          </a>
+          <Link href="/authors/create" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Novo Autor
+          </Link>
+        </div>
       </div>
 
       <div class="overflow-x-auto">
@@ -33,6 +41,11 @@
 
           <template #item-actions="author">
             <div class="flex items-center space-x-2">
+              <a :href="`/api/reports/authors/${author.id}`" target="_blank" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-colors" title="Baixar Relatório">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </a>
               <button @click="editAuthor(author)" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors" title="Editar">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
               </button>
@@ -82,12 +95,12 @@ const editForm = ref({
 });
 
 const headers = [
-  { text: "ID", value: "id", sortable: true },
+  { text: "ID", value: "id", sortable: true, width: 100 },
   { text: "NOME", value: "name", sortable: true },
-  { text: "AÇÕES", value: "actions" }
+  { text: "AÇÕES", value: "actions", width: 150 }
 ];
 
-const fetchAuthors = async (options = { page: 1, rowsPerPage: 25, sortBy: '', sortType: '' }) => {
+const fetchAuthors = async (options = { page: 1, rowsPerPage: 25, sortBy: 'id', sortType: 'asc' }) => {
   try {
     const params = new URLSearchParams();
     if (options.page) params.append('page', options.page);

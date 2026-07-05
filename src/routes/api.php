@@ -23,3 +23,8 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/books-by-author', [DashboardController::class, 'booksByAuthor']);
     Route::get('/books-by-subject', [DashboardController::class, 'booksBySubject']);
 });
+
+Route::prefix('reports')->group(function () {
+    Route::get('/authors', [\App\Http\Controllers\Api\ReportController::class, 'downloadAuthorsReport']);
+    Route::get('/authors/{author}', [\App\Http\Controllers\Api\ReportController::class, 'downloadAuthorReport']);
+});
