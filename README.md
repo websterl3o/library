@@ -48,7 +48,7 @@ Library
 | **Estilização**    | Tailwind CSS   | Construção ágil de interfaces sob medida através de classes utilitárias.                                                                |
 | **Testes**         | Pest PHP       | Framework para execução do TDD com sintaxe focada em legibilidade e velocidade.                                                         |
 | **Infraestrutura** | Docker Compose | Isolamento total de dependências garantindo paridade entre desenvolvimento e produção.                                                  |
-| **Banco de Dados** | PostgreSQL     | Motor relacional responsável pela persistência, integridade referencial e hospedagem da *View* do relatório.                            |
+| **Banco de Dados** | MySQL 8.0      | Motor relacional responsável pela persistência, integridade referencial e hospedagem da *View* do relatório.                            |
 
 ---
 
@@ -114,5 +114,9 @@ docker compose exec app npm run build
 * **Testes (TDD):** Para validar a suíte automatizada:
 ```bash
 docker compose exec app php artisan test
+```
 
+* **Relatório de Cobertura (Coverage):** Para gerar o relatório visual em HTML da cobertura de testes (`src/coverage-report`):
+```bash
+docker compose exec app php -d pcov.enabled=1 artisan test --coverage-html=coverage-report
 ```
