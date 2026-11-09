@@ -29,7 +29,7 @@ O projeto foi arquitetado com foco em **escalabilidade**, **manutenibilidade** e
 
 ## 🏗️ Estrutura e Ecossistema
 
-O repositório adota uma separação de responsabilidades (Separation of Concerns) que isola a aplicação Laravel dos artefatos de infraestrutura, da infraestrutura e dos scripts de automação.
+O repositório adota uma separação de responsabilidades (Separation of Concerns) que isola a aplicação Laravel da infraestrutura e dos scripts de automação.
 
 ```text
 Library
@@ -65,8 +65,6 @@ O ambiente de desenvolvimento foi projetado para ser 100% isolado via contêiner
 ---
 
 ## 🚀 Passo a Passo de Instalação (Setup)
-
-Todos os scripts e instruções para a implantação foram mapeados e organizados para demonstração na apresentação técnica.
 
 **1. Clonar o repositório**
 
