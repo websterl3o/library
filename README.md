@@ -1,4 +1,4 @@
-# Library (Desafio Técnico TJJUD)
+# Library
 
 ![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
@@ -9,7 +9,7 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![DOMPDF](https://img.shields.io/badge/DOMPDF-ff0000?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)
 
-Aplicação Web desenvolvida como resolução do desafio técnico para cadastro e gerenciamento de Livros, Autores e Assuntos. O projeto implementa um CRUD completo baseado em uma modelagem de dados relacional estrita, incorporando requisitos sistêmicos como formatação rigorosa de dados monetários, tratamento de exceções em nível de persistência e geração de relatórios otimizados através de Views no banco de dados.
+Aplicação web para cadastro e gerenciamento de Livros, Autores e Assuntos. O projeto implementa um CRUD completo baseado em uma modelagem de dados relacional estrita, incorporando requisitos sistêmicos como formatação rigorosa de dados monetários, tratamento de exceções em nível de persistência e geração de relatórios otimizados através de Views no banco de dados.
 
 ---
 
@@ -29,13 +29,13 @@ O projeto foi arquitetado com foco em **escalabilidade**, **manutenibilidade** e
 
 ## 🏗️ Estrutura e Ecossistema
 
-O repositório adota uma separação de responsabilidades (Separation of Concerns) que isola a aplicação Laravel dos artefatos de infraestrutura, CI/CD e documentação.
+O repositório adota uma separação de responsabilidades (Separation of Concerns) que isola a aplicação Laravel dos artefatos de infraestrutura, da infraestrutura e dos scripts de automação.
 
 ```text
 Library
 ├── src/          # Código-fonte da aplicação (Laravel 11+, Vue 3)
-├── infra/        # Configurações de contêineres Docker, Nginx e provisionamento (Staging/Production)
-├── scripts/      # Shell scripts utilitários para setup de ambiente, migrations e quality checks
+├── infra/        # Configurações dos contêineres (PHP, Nginx e MySQL)
+├── scripts/      # Script de setup do ambiente (setup.sh)
 ```
 
 
@@ -71,7 +71,7 @@ Todos os scripts e instruções para a implantação foram mapeados e organizado
 **1. Clonar o repositório**
 
 ```bash
-git clone [https://github.com/websterl3o/library.git](https://github.com/websterl3o/library.git)
+git clone https://github.com/websterl3o/library.git
 cd library
 
 ```
