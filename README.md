@@ -34,10 +34,8 @@ O repositório adota uma separação de responsabilidades (Separation of Concern
 ```text
 Library
 ├── src/          # Código-fonte da aplicação (Laravel 11+, Vue 3)
-├── docs/         # Documentação técnica detalhada, diagramas e notas de arquitetura (pt-BR)
 ├── infra/        # Configurações de contêineres Docker, Nginx e provisionamento (Staging/Production)
 ├── scripts/      # Shell scripts utilitários para setup de ambiente, migrations e quality checks
-└── .github/      # Workflows de CI/CD (GitHub Actions) e templates de Pull Request (PR)
 ```
 
 
